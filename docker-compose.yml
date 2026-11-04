@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   php:
-    image: ${SITESPANEL_REGISTRY:-europe-docker.pkg.dev/PROJECT/sitespanel-images}/php:8.4-fpm
+    image: ${SITESPANEL_REGISTRY:-ghcr.io/sitespanel}/php:8.4-fpm
     volumes:
       - ./src:/var/www/html
 

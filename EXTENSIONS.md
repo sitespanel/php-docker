@@ -1,10 +1,10 @@
 # What is in the PHP images
 
-The complete list of PHP extensions and tools in the `europe-docker.pkg.dev/PROJECT/sitespanel-images/php` images. The versions below were read from the **PHP 8.5.11 build on Debian 13 (trixie), 2026-10-10**; other PHP versions are built from the same list, and their extension versions differ. To see what any image has, run:
+The complete list of PHP extensions and tools in the `ghcr.io/sitespanel/php` images. The versions below were read from the **PHP 8.5.11 build on Debian 13 (trixie), 2026-10-10**; other PHP versions are built from the same list, and their extension versions differ. To see what any image has, run:
 
 ```bash
-docker run --rm europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.5-trixie php -m          # loaded extensions
-docker run --rm europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.5-trixie php --ri redis  # one extension's details
+docker run --rm ghcr.io/sitespanel/php:8.5-trixie php -m          # loaded extensions
+docker run --rm ghcr.io/sitespanel/php:8.5-trixie php --ri redis  # one extension's details
 ```
 
 **87 extensions are loaded** by default: 35 compiled into PHP (core) and 52 installed on top (each has an `.ini` file in `/usr/local/etc/php/conf.d/`).

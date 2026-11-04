@@ -1,5 +1,7 @@
 # Production-Ready PHP Docker Images with Essential Extensions
 
+[![image](https://github.com/sitespanel/php-docker/actions/workflows/image.yml/badge.svg)](https://github.com/sitespanel/php-docker/actions/workflows/image.yml) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/sitespanel/php-docker/badge)](https://scorecard.dev/viewer/?uri=github.com/sitespanel/php-docker)
+
 > **SitesPanel image source.** Google Cloud Build builds this image and publishes it to the GitHub Container Registry as `ghcr.io/sitespanel/php`; see [CLOUDBUILD.md](CLOUDBUILD.md).
 
 

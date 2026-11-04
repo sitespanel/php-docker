@@ -1,0 +1,237 @@
+# Cloud Build: PHP (FPM and CLI) image for SitesPanel.
+# Publish build: runs on a push to main and on the weekly rebuild. Builds, scans, writes SBOMs,
+# then pushes to Artifact Registry with SLSA provenance (SitesPanel ADR-0065). Nothing is pushed
+# when a scan finds a fixable critical vulnerability.
+
+substitutions:
+  _AR_HOST: europe-docker.pkg.dev
+  _AR_REPOSITORY: sitespanel-images
+  _SBOM_BUCKET: sitespanel-image-sboms-europe  # set per trigger if the bucket has another name
+
+steps:
+  # The extensions the image installs must exist upstream (as the old GitHub workflow checked).
+  - id: extensions-check
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
+    args:
+      - -ceu
+      - |
+        curl -fsSL https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/data/supported-extensions -o data/supported-extensions
+        missing=""
+        while IFS= read -r ext; do
+          [ -z "$$ext" ] && continue
+          grep -q "^$$ext " data/supported-extensions || missing="$$missing $$ext"
+        done < data/installable-extensions
+        if [ -n "$$missing" ]; then echo "unknown extensions:$$missing"; exit 1; fi
+        echo "all installable extensions exist upstream"
+  - id: build-php-8.3-fpm
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.3
+      - --build-arg=IMAGE_TYPE=fpm
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm-trixie-$SHORT_SHA
+      - .
+    waitFor: ['extensions-check']
+  - id: build-php-8.3-cli
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.3
+      - --build-arg=IMAGE_TYPE=cli
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli-trixie-$SHORT_SHA
+      - .
+    waitFor: ['extensions-check']
+  - id: build-php-8.4-fpm
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.4
+      - --build-arg=IMAGE_TYPE=fpm
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm-trixie-$SHORT_SHA
+      - .
+    waitFor: ['extensions-check']
+  - id: build-php-8.4-cli
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.4
+      - --build-arg=IMAGE_TYPE=cli
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli-trixie-$SHORT_SHA
+      - .
+    waitFor: ['extensions-check']
+  - id: build-php-8.5-fpm
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.5
+      - --build-arg=IMAGE_TYPE=fpm
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm-trixie-$SHORT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:latest-fpm
+      - .
+    waitFor: ['extensions-check']
+  - id: build-php-8.5-cli
+    name: gcr.io/cloud-builders/docker
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - build
+      - --build-arg=PHP_VERSION=8.5
+      - --build-arg=IMAGE_TYPE=cli
+      - --build-arg=DEBIAN_RELEASE=trixie
+      - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
+      - --label=org.opencontainers.image.revision=$COMMIT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli-trixie
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli-trixie-$SHORT_SHA
+      - --tag=${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:latest-cli
+      - .
+    waitFor: ['extensions-check']
+  - id: save-php-8.3-fpm
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.3-fpm.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm-trixie']
+    waitFor: ['build-php-8.3-fpm']
+  - id: scan-php-8.3-fpm
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.3-fpm.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.3-fpm.tar --format spdx-json --output /workspace/sbom/php-8.3-fpm.spdx.json
+    waitFor: ['save-php-8.3-fpm']
+  - id: save-php-8.3-cli
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.3-cli.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli-trixie']
+    waitFor: ['build-php-8.3-cli']
+  - id: scan-php-8.3-cli
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.3-cli.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.3-cli.tar --format spdx-json --output /workspace/sbom/php-8.3-cli.spdx.json
+    waitFor: ['save-php-8.3-cli', 'scan-php-8.3-fpm']
+  - id: save-php-8.4-fpm
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.4-fpm.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm-trixie']
+    waitFor: ['build-php-8.4-fpm']
+  - id: scan-php-8.4-fpm
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.4-fpm.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.4-fpm.tar --format spdx-json --output /workspace/sbom/php-8.4-fpm.spdx.json
+    waitFor: ['save-php-8.4-fpm', 'scan-php-8.3-cli']
+  - id: save-php-8.4-cli
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.4-cli.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli-trixie']
+    waitFor: ['build-php-8.4-cli']
+  - id: scan-php-8.4-cli
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.4-cli.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.4-cli.tar --format spdx-json --output /workspace/sbom/php-8.4-cli.spdx.json
+    waitFor: ['save-php-8.4-cli', 'scan-php-8.4-fpm']
+  - id: save-php-8.5-fpm
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.5-fpm.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm-trixie']
+    waitFor: ['build-php-8.5-fpm']
+  - id: scan-php-8.5-fpm
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.5-fpm.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.5-fpm.tar --format spdx-json --output /workspace/sbom/php-8.5-fpm.spdx.json
+    waitFor: ['save-php-8.5-fpm', 'scan-php-8.4-cli']
+  - id: save-php-8.5-cli
+    name: gcr.io/cloud-builders/docker
+    args: ['save', '--output', '/workspace/php-8.5-cli.tar', '${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli-trixie']
+    waitFor: ['build-php-8.5-cli']
+  - id: scan-php-8.5-cli
+    name: aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.5-cli.tar --severity CRITICAL --ignore-unfixed --exit-code 1 --format table
+        mkdir -p /workspace/sbom
+        trivy image --cache-dir /workspace/.trivy --input /workspace/php-8.5-cli.tar --format spdx-json --output /workspace/sbom/php-8.5-cli.spdx.json
+    waitFor: ['save-php-8.5-cli', 'scan-php-8.5-fpm']
+
+# Pushed only when every step succeeded; Cloud Build attaches SLSA provenance to these digests.
+images:
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-fpm-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.3-cli-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-fpm-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.4-cli-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-fpm-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:latest-fpm
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli-trixie
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:8.5-cli-trixie-$SHORT_SHA
+  - ${_AR_HOST}/$PROJECT_ID/${_AR_REPOSITORY}/php:latest-cli
+
+artifacts:
+  objects:
+    location: gs://${_SBOM_BUCKET}/php/$COMMIT_SHA/
+    paths: ['/workspace/sbom/*.spdx.json']
+
+options:
+  machineType: E2_HIGHCPU_8
+  logging: CLOUD_LOGGING_ONLY
+  requestedVerifyOption: VERIFIED
+
+timeout: 7200s

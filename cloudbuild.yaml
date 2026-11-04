@@ -35,7 +35,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.3-fpm-trixie
       - --tag=${_REGISTRY}/php:8.3-fpm
       - --tag=${_REGISTRY}/php:8.3-fpm-trixie-$SHORT_SHA
@@ -68,7 +68,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.3-cli-trixie
       - --tag=${_REGISTRY}/php:8.3-cli
       - --tag=${_REGISTRY}/php:8.3-cli-trixie-$SHORT_SHA
@@ -101,7 +101,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.4-fpm-trixie
       - --tag=${_REGISTRY}/php:8.4-fpm
       - --tag=${_REGISTRY}/php:8.4-fpm-trixie-$SHORT_SHA
@@ -134,7 +134,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.4-cli-trixie
       - --tag=${_REGISTRY}/php:8.4-cli
       - --tag=${_REGISTRY}/php:8.4-cli-trixie-$SHORT_SHA
@@ -167,7 +167,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.5-fpm-trixie
       - --tag=${_REGISTRY}/php:8.5-fpm
       - --tag=${_REGISTRY}/php:8.5-fpm-trixie-$SHORT_SHA
@@ -201,7 +201,7 @@ steps:
       - --label=org.opencontainers.image.source=https://github.com/sitespanel/php-docker
       - --label=org.opencontainers.image.revision=$COMMIT_SHA
       - --label=dev.sitespanel.build.id=$BUILD_ID
-      - --label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js.
+      - "--label=org.opencontainers.image.description=SitesPanel PHP images: PHP-FPM and CLI for PHP 8.3 to 8.5 on Debian trixie, with Composer, WP-CLI and Node.js."
       - --tag=${_REGISTRY}/php:8.5-cli-trixie
       - --tag=${_REGISTRY}/php:8.5-cli
       - --tag=${_REGISTRY}/php:8.5-cli-trixie-$SHORT_SHA

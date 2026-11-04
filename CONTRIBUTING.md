@@ -36,8 +36,7 @@ Thanks for your interest in improving these Docker images!
 │   └── install-extensions.sh     # Extension filtering and install script
 ├── php.ini.example               # Example hardened PHP config (copy to php.ini and mount)
 ├── www.conf.example              # Example FPM pool config (copy to www.conf and mount)
-├── cloudbuild.yaml             # Cloud Build: build, scan, SBOM, push with provenance
-└── cloudbuild-pr.yaml          # Cloud Build: pull-request build and scan, no push
+└── .github/workflows/image.yml   # GitHub Actions: lint, build, scan, push to ghcr.io, attest (BUILD.md)
 ```
 
 ## Code Style

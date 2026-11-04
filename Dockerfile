@@ -69,9 +69,13 @@ RUN set -eu; \
 # bare symlink makes every call print a "Deprecated program name" notice).
 # Node.js comes from NodeSource's apt repository the same way: key checked against
 # a pinned fingerprint, exact package version (no installer script is piped into a shell).
+# Debian security fixes released after the official PHP image was built are applied
+# first (`apt-get upgrade`), so the build's critical-vulnerability scan does not wait
+# for the next upstream rebuild.
 RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
+    apt-get upgrade -y --no-install-recommends; \
     apt-get install -y --no-install-recommends ca-certificates curl gnupg; \
     install -d -m 0755 /etc/apt/keyrings; \
     curl -fsSL https://mariadb.org/mariadb_release_signing_key.asc -o /etc/apt/keyrings/mariadb.asc; \

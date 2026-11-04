@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   php:
-    image: morsalin1342/php:8.4-fpm
+    image: ${SITESPANEL_REGISTRY:-europe-docker.pkg.dev/PROJECT/sitespanel-images}/php:8.4-fpm
     volumes:
       - ./src:/var/www/html
 

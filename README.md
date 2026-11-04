@@ -1,10 +1,7 @@
 # Production-Ready PHP Docker Images with Essential Extensions
 
-> **SitesPanel copy.** This repository is SitesPanel's copy of the image source. SitesPanel builds it with Google Cloud Build and serves it from Artifact Registry (`europe`); see [CLOUDBUILD.md](CLOUDBUILD.md). The Docker Hub publishing of the original repository does not run here.
+> **SitesPanel image source.** SitesPanel builds this image with Google Cloud Build and serves it from Artifact Registry (`europe-docker.pkg.dev/PROJECT/sitespanel-images/php`); see [CLOUDBUILD.md](CLOUDBUILD.md). Replace `PROJECT` with SitesPanel's Google Cloud project.
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/morsalin1342/php?style=for-the-badge&logo=docker)](https://hub.docker.com/r/morsalin1342/php)
-[![GitHub Stars](https://img.shields.io/github/stars/morsalin1342/php-docker?style=for-the-badge&logo=github)](https://github.com/morsalin1342/php-docker)
-[![License](https://img.shields.io/github/license/morsalin1342/php-docker?style=for-the-badge)](https://github.com/morsalin1342/php-docker/blob/master/LICENSE)
 
 High-performance, production-ready **PHP-FPM** and **PHP-CLI** Docker images, packed with extensions and tools to supercharge any modern PHP application.
 
@@ -32,14 +29,14 @@ These images are optimized for a wide range of PHP applications, including:
 
 ## Quick Start
 
-The recommended way to use these images is to reference them directly from Docker Hub in your `docker-compose.yml` or `Dockerfile`.
+The recommended way to use these images is to reference them from SitesPanel's Artifact Registry in your `docker-compose.yml` or `Dockerfile`.
 
 ### For Web Applications (FPM)
 ```yaml
 # docker-compose.yml
 services:
   php:
-    image: morsalin1342/php:8.4-fpm
+    image: europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.4-fpm
     volumes:
       - ./src:/var/www/html
 
@@ -55,10 +52,10 @@ services:
 ### For CLI Tasks
 ```bash
 # Run Composer install
-docker run --rm -v $(pwd):/app morsalin1342/php:8.4-cli composer install
+docker run --rm -v $(pwd):/app europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.4-cli composer install
 
 # Run a specific PHP script
-docker run --rm -v $(pwd):/app morsalin1342/php:8.4-cli php your-script.php
+docker run --rm -v $(pwd):/app europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.4-cli php your-script.php
 ```
 
 ---
@@ -69,7 +66,7 @@ If you need to customize the images, you can build them locally. This is useful 
 
 Clone the repository and use the `--build-arg` flag (every build argument is listed in [EXTENSIONS.md](EXTENSIONS.md#build-arguments)):
 ```bash
-git clone https://github.com/morsalin1342/php-docker.git
+git clone https://github.com/sitespanel/php-docker.git
 cd php-docker
 
 # Build a PHP 8.4 image with Node.js 22
@@ -107,8 +104,8 @@ We prioritize stability. Use explicit tags in your production `Dockerfile`:
 
 | Variant | Use Case |
 | :--- | :--- |
-| `morsalin1342/php:<version>-fpm` | Production Web Servers |
-| `morsalin1342/php:<version>-cli` | Tasks, Migrations, CI/CD Pipelines |
+| `europe-docker.pkg.dev/PROJECT/sitespanel-images/php:<version>-fpm` | Production Web Servers |
+| `europe-docker.pkg.dev/PROJECT/sitespanel-images/php:<version>-cli` | Tasks, Migrations, CI/CD Pipelines |
 
 ### Base OS
 
@@ -118,7 +115,7 @@ Every version and variant is built on Debian 13 (trixie):
 | :--- | :--- |
 | `8.4-fpm`, `8.4-fpm-trixie` | Debian 13 (trixie) |
 
-Only trixie is built; `-trixie` tags are kept as aliases of the unsuffixed ones. bookworm is built again only for a PHP version whose official image has no trixie variant. The old `-bookworm` tags stay on Docker Hub but are no longer updated.
+Only trixie is built; `-trixie` tags are kept as aliases of the unsuffixed ones. bookworm is built again only for a PHP version whose official image has no trixie variant. The old `-bookworm` tags stay in Artifact Registry but are no longer updated.
 
 ---
 
@@ -134,7 +131,7 @@ A: Absolutely. You can mount your own `php.ini` file into the container (start f
 **Q: How do I add extensions not in your list?**
 A: Since we use the `mlocati/php-extension-installer` utility, you can easily install any other extension via a custom `Dockerfile` layer:
 ```dockerfile
-FROM morsalin1342/php:8.4-fpm
+FROM europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.4-fpm
 RUN install-php-extensions my-custom-extension
 ```
 
@@ -151,21 +148,21 @@ A: Run them as separate containers from the same image with their own command (f
 ## Related Images & Tools
 
 <!-- BEGIN GENERATED: related (from images.yaml in the org .github repository; do not edit by hand) -->
-Every image is published under `morsalin1342` (personal) and `easydigital` (organization), from the same build.
+Every image is built by Google Cloud Build and published to SitesPanel's Artifact Registry (`europe-docker.pkg.dev/PROJECT/sitespanel-images`), with SLSA provenance and an SBOM per image.
 
 | Repository | Images | Description |
 |---|---|---|
-| [caddy-docker](https://github.com/morsalin1342/caddy-docker) | `morsalin1342/caddy` · `easydigital/caddy` | Standalone Caddy with WAF, rate limiting & caching |
-| [frankenphp-docker](https://github.com/morsalin1342/frankenphp-docker) | `morsalin1342/frankenphp` · `easydigital/frankenphp` | Caddy + PHP app server in one container |
-| [nginx-docker](https://github.com/morsalin1342/nginx-docker) | `morsalin1342/nginx` · `easydigital/nginx` | nginx with ModSecurity 3, Brotli, zstd & GeoIP2 |
-| [apache-docker](https://github.com/morsalin1342/apache-docker) | `morsalin1342/apache` · `easydigital/apache` | Apache as a static server or php-fpm application server, no PHP inside |
+| [caddy-docker](https://github.com/sitespanel/caddy-docker) | `sitespanel-images/caddy` | Standalone Caddy with WAF, rate limiting & caching |
+| [frankenphp-docker](https://github.com/sitespanel/frankenphp-docker) | `sitespanel-images/frankenphp` | Caddy + PHP app server in one container |
+| [nginx-docker](https://github.com/sitespanel/nginx-docker) | `sitespanel-images/nginx` | nginx with ModSecurity 3, Brotli, zstd & GeoIP2 |
+| [apache-docker](https://github.com/sitespanel/apache-docker) | `sitespanel-images/apache` | Apache as a static server or php-fpm application server, no PHP inside |
 <!-- END GENERATED: related -->
 
 ---
 
 ## Feedback and Issues
 
-If you have suggestions, find a bug, or want to request a new extension, please [open an issue](https://github.com/morsalin1342/php-docker/issues) on the GitHub repository.
+If you have suggestions, find a bug, or want to request a new extension, please [open an issue](https://github.com/sitespanel/php-docker/issues) on the GitHub repository.
 
 ---
 

@@ -7,7 +7,7 @@ assignees: ''
 ---
 
 **Image tag(s) affected**
-<!-- e.g. morsalin1342/php:8.4-fpm -->
+<!-- e.g. europe-docker.pkg.dev/PROJECT/sitespanel-images/php:8.4-fpm -->
 
 **Describe the bug**
 <!-- A clear description of what's wrong -->

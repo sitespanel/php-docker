@@ -7,10 +7,10 @@ ARG NODE_VERSION=24
 # Exact NodeSource package of that Node.js line (24.22.1, NodeSource node_24.x, 2026-10-27).
 ARG NODE_PACKAGE_VERSION=24.22.1-1nodesource1
 # npm replaces the one bundled with Node: npm 11.19.1 (Node 24.22.1) still bundles
-# brace-expansion and undici releases with high CVEs; npm 12.2.1 fixes all but
-# undici CVE-2026-109869 (needs undici 6.29.1, in no npm release yet; waived in
-# the SitesPanel image manifest until it is).
-ARG NPM_VERSION=12.2.1
+# brace-expansion and undici releases with high CVEs; npm 12.2.2 (2026-11-04) bundles
+# undici 6.29.1 and brace-expansion 5.0.12, which fix them (read from the package on
+# 2026-11-08; npm 12.2.1 still bundled undici 6.29.0).
+ARG NPM_VERSION=12.2.2
 # Fingerprint of the NodeSource repository signing key (deb.nodesource.com/gpgkey/nodesource-repo.gpg.key).
 ARG NODE_KEY_FPR=6F71F525282841EEDAF851B42F59B5F99B1BE0B4
 # Debian release of the base image. Only trixie is built; use bookworm here only

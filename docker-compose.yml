@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  php:
+    image: ${SITESPANEL_REGISTRY:-ghcr.io/sitespanel}/php:8.4-fpm
+    volumes:
+      - ./src:/var/www/html
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html

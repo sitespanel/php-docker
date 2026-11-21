@@ -1,0 +1,17 @@
+expose_php = Off
+display_errors = Off
+display_startup_errors = Off
+allow_url_fopen = On
+allow_url_include = Off
+log_errors = On
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+max_execution_time = 300
+max_input_time = 300
+max_input_vars = 5000
+output_buffering = 4096
+max_file_uploads = 20
+post_max_size = 128M
+upload_max_filesize = 128M
+memory_limit = 128M
+open_basedir = /var/www/html:/tmp
+disable_functions = getmyuid,passthru,leak,listen,diskfreespace,tmpfile,link,shell_exec,dl,exec,system,highlight_file,source,show_source,fpassthru,virtual,posix_ctermid,posix_getcwd,posix_getegid,posix_geteuid,posix_getgid,posix_getgrgid,posix_getgrnam,posix_getgroups,posix_getlogin,posix_getpgid,posix_getpgrp,posix_getpid,posix_getppid,posix_getpwuid,posix_getrlimit,posix_getsid,posix_getuid,posix_isatty,posix_kill,posix_mkfifo,posix_setegid,posix_seteuid,posix_setgid,posix_setpgid,posix_setsid,posix_setuid,posix_times,posix_ttyname,posix_uname,proc_open,proc_close,proc_nice,proc_terminate,escapeshellcmd,ini_alter,popen,pcntl_exec,socket_accept,socket_bind,socket_clear_error,socket_close,socket_connect,symlink,socket_listen,socket_create_listen,socket_read,socket_create_pair,stream_socket_server

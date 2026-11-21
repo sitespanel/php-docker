@@ -4,8 +4,8 @@ ARG PHP_VERSION=8.4
 ARG IMAGE_TYPE=fpm
 # Use a build-time argument to specify the Node.js version. Defaulting to 24.
 ARG NODE_VERSION=24
-# Exact NodeSource package of that Node.js line (24.22.1, NodeSource node_24.x, 2026-10-27).
-ARG NODE_PACKAGE_VERSION=24.22.1-1nodesource1
+# Exact NodeSource package of that Node.js line (24.22.3, NodeSource node_24.x, read 2026-11-21: fixes the CVEs of the 2026-11-11 Node.js security release).
+ARG NODE_PACKAGE_VERSION=24.22.3-1nodesource1
 # npm replaces the one bundled with Node: npm 11.19.1 (Node 24.22.1) still bundles
 # brace-expansion and undici releases with high CVEs; npm 12.2.2 (2026-11-04) bundles
 # undici 6.29.1 and brace-expansion 5.0.12, which fix them (read from the package on

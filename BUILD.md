@@ -6,7 +6,7 @@ This repository is the source of SitesPanel's `php` image. **GitHub Actions** bu
 
 | Event | What happens |
 |---|---|
-| Push to `main` touching the image's files, the weekly rebuild (Mondays 03:00 UTC), or a manual run | build, scan with Trivy (a fixable critical vulnerability stops the job before any push), push with the workflow's own `GITHUB_TOKEN`, then a signed **build-provenance attestation** and an **SBOM attestation** (SPDX, from Trivy) on each digest, pushed to the registry |
+| Push to `main` touching the image's files, the weekly rebuild (Mondays 03:00 UTC), or a manual run | build, scan with Trivy (a fixable high or critical vulnerability stops the job before any push), push with the workflow's own `GITHUB_TOKEN`, then a signed **build-provenance attestation** and an **SBOM attestation** (SPDX, from Trivy) on each digest, pushed to the registry |
 | Pull request to `main` | build and scan only; no push, no write permission |
 
 Tags: `8.3-fpm-trixie`, `8.3-fpm`, `8.3-fpm-trixie-<commit>`, `8.3-cli-trixie`, `8.3-cli`, `8.3-cli-trixie-<commit>`, `8.4-fpm-trixie`, `8.4-fpm`, `8.4-fpm-trixie-<commit>`, `8.4-cli-trixie`, `8.4-cli`, `8.4-cli-trixie-<commit>`, `8.5-fpm-trixie`, `8.5-fpm`, `8.5-fpm-trixie-<commit>`, `latest-fpm`, `8.5-cli-trixie`, `8.5-cli`, `8.5-cli-trixie-<commit>`, `latest-cli`. SitesPanel's image manifest picks **digests**, never tags. Verify an image and its attestation with:

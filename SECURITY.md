@@ -7,7 +7,6 @@
 | 8.5     | fpm/cli | :white_check_mark: |
 | 8.4     | fpm/cli | :white_check_mark: |
 | 8.3     | fpm/cli | :white_check_mark: |
-| 8.2     | fpm/cli | :white_check_mark: |
 
 ## Reporting a Vulnerability
 

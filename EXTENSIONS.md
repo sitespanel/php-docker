@@ -137,7 +137,7 @@ These are absent from the images; add them in your own image if you need them.
 
 | Tool | Version | Notes |
 |---|---|---|
-| PHP | 8.5.11 (NTS) | The tag selects the version: 8.2, 8.3, 8.4 or 8.5. |
+| PHP | 8.5.11 (NTS) | The tag selects the version: 8.3, 8.4 or 8.5. |
 | Composer | 2.10.3 |  |
 | WP-CLI | 2.12.0 | A pinned release, checked against its published SHA-256 at build time (`WP_CLI_VERSION`, `WP_CLI_SHA256`). |
 | Node.js / npm | 24.21.0 / 11.19.0 | Major version set by the `NODE_VERSION` build argument (default 24). |
@@ -154,7 +154,7 @@ These are absent from the images; add them in your own image if you need them.
 
 | Argument | Default | Meaning |
 |---|---|---|
-| `PHP_VERSION` | `8.4` | PHP branch: 8.2, 8.3, 8.4 or 8.5 |
+| `PHP_VERSION` | `8.4` | PHP branch: 8.3, 8.4 or 8.5 |
 | `DEBIAN_RELEASE` | `trixie` | `trixie` (the only one built) or `bookworm` for a PHP version without a trixie base image |
 | `NODE_VERSION` | `24` | Node.js major version |
 | `MARIADB_SERIES` | `12.3` | MariaDB client series |

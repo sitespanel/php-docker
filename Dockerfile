@@ -117,7 +117,8 @@ RUN set -eux; \
 
 # ==> 2. Install PHP Extensions <==
 # First, copy the main installer utility from the official image
-COPY --from=ghcr.io/mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+# The extension installer, pinned by release and digest (2.13.2, 2026-11-02); bump both together.
+COPY --from=ghcr.io/mlocati/php-extension-installer:2.13.2@sha256:4fd45396c16685266d32bf147a24ecd5e81029d3820295895bf4a90131190ac9 /usr/bin/install-php-extensions /usr/local/bin/
 
 # Copy our custom script and data files
 COPY ./scripts/install-extensions.sh /usr/local/bin/

@@ -21,7 +21,7 @@ Thanks for your interest in improving these Docker images!
    docker build --build-arg PHP_VERSION=8.4 --build-arg IMAGE_TYPE=fpm -t test-php .
    docker run --rm test-php php -m
    ```
-4. Open a PR against `master` with a clear description
+4. Open a PR against `main` with a clear description
 
 ## Project Structure
 

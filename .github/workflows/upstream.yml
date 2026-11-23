@@ -1,0 +1,46 @@
+# Weekly: the version pins in the Dockerfile's ARG lines that are behind upstream (.github/upstream.txt lists them and where to look).
+# Dependabot covers versions written in FROM lines and the actions; it cannot see an ARG value. One issue lists what is behind;
+# it is updated each run and closed when nothing is. Read-only on the code; it only writes that issue.
+name: upstream versions
+on:
+  schedule:
+    - cron: '0 4 * * 1'   # Mondays 04:00 UTC, after the weekly rebuild
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Compare the pins with upstream
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 .github/upstream-check.py > behind.txt
+          cat behind.txt
+          echo "count=$(grep -c . behind.txt || true)" >> "$GITHUB_OUTPUT"
+      - name: Open, update or close the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COUNT: ${{ steps.check.outputs.count }}
+          TITLE: Version pins behind upstream
+        run: |
+          number=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq "map(select(.title==\"$TITLE\"))|.[0].number // empty")
+          if [ "$COUNT" -gt 0 ]; then
+            { echo "The weekly check ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) found these pins behind upstream."
+              echo "Bump each in the Dockerfile with its checksum or commit where it has one, and check the release notes first."
+              echo; echo '| ARG | pinned | upstream | source |'; echo '|---|---|---|---|'
+              awk '{printf "| `%s` | %s | %s | %s |\n", $1, $2, $3, $4}' behind.txt; } > issue.md
+            if [ -n "$number" ]; then gh issue edit "$number" --body-file issue.md
+            else gh issue create --title "$TITLE" --body-file issue.md; fi
+          elif [ -n "$number" ]; then
+            gh issue close "$number" --comment "Every listed pin matches upstream again (run $GITHUB_RUN_ID)."
+          fi

@@ -31,7 +31,7 @@ FROM php:${PHP_VERSION}-${IMAGE_TYPE}-${DEBIAN_RELEASE}
 LABEL org.opencontainers.image.title="php" \
       org.opencontainers.image.description="PHP-FPM and CLI with 52 extensions, Composer, WP-CLI, the MariaDB client and Node.js" \
       org.opencontainers.image.source="https://github.com/sitespanel/php-docker" \
-      org.opencontainers.image.licenses="MIT"
+      org.opencontainers.image.licenses="PHP-3.01"
 
 # Re-declare ARGs to be available in subsequent build stages
 ARG PHP_VERSION

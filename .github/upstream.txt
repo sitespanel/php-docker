@@ -1,0 +1,3 @@
+# ARG source (see .github/upstream-check.py)
+NPM_VERSION npm:npm
+WP_CLI_VERSION github:wp-cli/wp-cli

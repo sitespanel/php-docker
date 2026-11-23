@@ -13,7 +13,7 @@ High-performance, production-ready **PHP-FPM** and **PHP-CLI** Docker images, pa
 
 *   **Batteries Included**: 50+ optimized PHP extensions, Composer, WP-CLI, and a configurable Node.js version (defaults to 24).
 *   **Production Optimized**: Built on official `php` trixie bases with `php.ini-production` settings.
-*   **Multi-Version**: Maintained builds for PHP 8.2, 8.3, 8.4, and 8.5.
+*   **Multi-Version**: Maintained builds for PHP 8.3, 8.4 and 8.5.
 *   **CI/CD Ready**: Lightweight and perfect for automated build pipelines.
 
 ---
